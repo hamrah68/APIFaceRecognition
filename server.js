@@ -21,31 +21,26 @@ const db = knex({
 // let usersData = db.select('*').from('users');
 // usersData.then(data => console.log(data));
 
-try {
-    app.use(bodyParser.json());
-    app.use(cors());
 
-    app.get("/", (req, res) => { res.send("Welcome to Smart Brain API"); })
+app.use(bodyParser.json());
+app.use(cors());
 
-    app.post("/signin", signin.handleSignin(db, bcrypt));
-    app.post("/register", register.handleRegister(db, bcrypt));
-    app.get("/profile/:id", profile.handleProfileGet(db));
-    app.put("/image", image.handleImage(db));
-    app.post("/imageurl", image.handleAPiCall());
+app.get("/", (req, res) => { res.send("Welcome to Smart Brain API"); })
 
-    // app.post("/signin", (req, res) => signin.handleSignin(req, res, db, bcrypt));
-    // app.post("/register", (req, res) => register.handleRegister(req, res, db, bcrypt));
-    // app.get("/profile/:id", (req, res) => profile.handleProfileGet(req, res, db));
-    // app.put("/image", (req, res) => image.handleImage(req, res, db));
+app.post("/signin", signin.handleSignin(db, bcrypt));
+app.post("/register", register.handleRegister(db, bcrypt));
+app.get("/profile/:id", profile.handleProfileGet(db));
+app.put("/image", image.handleImage(db));
+app.post("/imageurl", image.handleAPiCall());
+
+// app.post("/signin", (req, res) => signin.handleSignin(req, res, db, bcrypt));
+// app.post("/register", (req, res) => register.handleRegister(req, res, db, bcrypt));
+// app.get("/profile/:id", (req, res) => profile.handleProfileGet(req, res, db));
+// app.put("/image", (req, res) => image.handleImage(req, res, db));
 
 
-    app.listen(3000, () => {
-        console.log("app is running");
-    })
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`app is running on ${process.env.PORT}`);
+})
 
-} catch (error) {
-    console.log("Catched Error Hamed: ", error)
-    app.get('/', () => {
-        app.send("The App Crashed in Server Side");
-    })
-}
+
